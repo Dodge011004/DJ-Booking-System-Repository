@@ -1,16 +1,9 @@
 package za.ac.cput.factory;
-
 import za.ac.cput.domain.Gig;
+import za.ac.cput.domain.DJ;
 
 public class GigFactory {
-    public static Gig createGig(int gigId, double gigSalary, String gigVenue) {
-        if (gigId <= 0 || gigSalary <= 0 || gigVenue == null || gigVenue.isEmpty()) {
-            return null;
-        }
-        return new Gig.Builder()
-                .setGigId(gigId)
-                .setGigSalary(gigSalary)
-                .setGigVenue(gigVenue)
-                .build();
+    public static Gig build(Long gigId, double fee, String venue, String timeslot, String dayOfWeek, DJ dj) {
+        return new Gig(gigId, fee, venue, timeslot, dayOfWeek, dj);
     }
 }

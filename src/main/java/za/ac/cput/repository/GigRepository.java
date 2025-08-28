@@ -1,56 +1,19 @@
 package za.ac.cput.repository;
-
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import za.ac.cput.domain.Gig;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
+import java.util.Optional;
 
-public class GigRepository {
-    private static GigRepository repository = null;
-    private Set<Gig> gigDB;
+@Repository
+public interface GigRepository extends JpaRepository<Gig, Long> {
 
-    private GigRepository() {
-        gigDB = new HashSet<>();
-    }
+    Gig save(Gig gig);
 
-    public static GigRepository getInstance() {
-        if (repository == null) {
-            repository = new GigRepository();
-        }
-        return repository;
-    }
+    Optional<Gig> findById(Long gigId);
 
-    public Gig create(Gig gig) {
-        if (gigDB.add(gig)) {
-            return gig;
-        }
-        return null;
-    }
+    void deleteById(Long gigId);
 
-    public Gig read(int gigId) {
-        return gigDB.stream().filter(gig -> gig.getGigId() == gigId).findFirst().orElse(null);
-    }
-
-    public Gig update(Gig gig) {
-        Gig existingGig = read(gig.getGigId());
-        if (existingGig != null) {
-            gigDB.remove(existingGig);
-            gigDB.add(gig);
-            return gig;
-        }
-        return null;
-    }
-
-    public boolean delete(int gigId) {
-        Gig gigToDelete = read(gigId);
-        if (gigToDelete != null) {
-            gigDB.remove(gigToDelete);
-            return true;
-        }
-        return false;
-    }
-
-    public Set<Gig> getAll() {
-        return gigDB;
-    }
+    List<Gig> findAll();
 }
